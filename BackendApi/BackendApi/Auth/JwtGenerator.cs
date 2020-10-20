@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace BackendApi.Auth
 {
-    public class GeneratorJwt
+    public class JwtGenerator
     {
         private readonly IOptions<AuthOptions> _authOptions;
 
-        public GeneratorJwt(IOptions<AuthOptions> authOptions)
+        public JwtGenerator(IOptions<AuthOptions> authOptions)
         {
             _authOptions = authOptions;
         }
 
-        public string Generate(User user)
+        public string GenerateJwt(User user)
         {
             var authParams = _authOptions.Value;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackendApi.Auth;
 using BackendApi.Data;
+using BackendApi.Data.Repositories;
 using BackendApi.Models;
 using BackendApi.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -18,32 +19,40 @@ namespace BackendApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private AppDbContext _context;
-        private PasswordHasher<User> _passwordHasher;
-        private GeneratorJwt _generatorJwt;
+        private IUserRepository _userRepository;
+        private JwtGenerator _jwtGenerator;
 
-        public AuthController(AppDbContext context, PasswordHasher<User> passwordHasher, GeneratorJwt generatorJwt)
+        public AuthController(IUserRepository userRepository, JwtGenerator jwtGenerator)
         {
-            _context = context;
-            _passwordHasher = passwordHasher;
-            _generatorJwt = generatorJwt;
+            _userRepository = userRepository;
+            _jwtGenerator = jwtGenerator;
         }
 
         [Route("login")]
         [HttpPost]
         public IActionResult Login([FromBody]LoginViewModel request)
         {
-            var user = _context.Users.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).FirstOrDefault(u => u.Name == request.Name);
-
+            var user = _userRepository.GetUser(request);
             if (user != null)
             {
-                var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
-                if (verificationResult == PasswordVerificationResult.Success)
-                {
-                    var token = _generatorJwt.Generate(user);
+                var token = _jwtGenerator.GenerateJwt(user);
 
-                    return Ok(new { access_token = token });
-                }
+                return Ok(new { access_token = token });
+            }
+
+            return Unauthorized();
+        }
+
+        [Route("register")]
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel request)
+        {
+            var user = await _userRepository.RegisterUser(request);
+            if (user != null)
+            {
+                var token = _jwtGenerator.GenerateJwt(user);
+
+                return Ok(new { access_token = token });
             }
 
             return Unauthorized();

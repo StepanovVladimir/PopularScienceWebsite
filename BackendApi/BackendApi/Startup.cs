@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackendApi.Auth;
 using BackendApi.Data;
+using BackendApi.Data.Repositories;
 using BackendApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -58,7 +59,8 @@ namespace BackendApi
                 });
 
             services.AddTransient<PasswordHasher<User>, PasswordHasher<User>>();
-            services.AddTransient<GeneratorJwt, GeneratorJwt>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<JwtGenerator, JwtGenerator>();
 
             services.AddControllers();
 
