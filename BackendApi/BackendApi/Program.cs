@@ -22,7 +22,7 @@ namespace BackendApi
             var scope = host.Services.CreateScope();
 
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var passwordHasher = scope.ServiceProvider.GetRequiredService<PasswordHasher<User>>();
+            var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>();
 
             var adminRole = new Role { Name = "Admin" };
             var moderatorRole = new Role { Name = "Moderator" };

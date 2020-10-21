@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackendApi.Auth;
 using BackendApi.Data;
+using BackendApi.Data.FileManagers;
 using BackendApi.Data.Repositories;
 using BackendApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -58,8 +59,10 @@ namespace BackendApi
                     };
                 });
 
-            services.AddTransient<PasswordHasher<User>, PasswordHasher<User>>();
+            services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddTransient<IImagesFileManager, ImagesFileManager>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IArticleRepository, ArticleRepository>();
             services.AddTransient<JwtGenerator, JwtGenerator>();
 
             services.AddControllers();
@@ -84,6 +87,7 @@ namespace BackendApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseCors();
 

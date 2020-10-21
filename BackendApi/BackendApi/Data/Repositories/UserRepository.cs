@@ -12,9 +12,9 @@ namespace BackendApi.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private AppDbContext _context;
-        private PasswordHasher<User> _passwordHasher;
+        private IPasswordHasher<User> _passwordHasher;
 
-        public UserRepository(AppDbContext context, PasswordHasher<User> passwordHasher)
+        public UserRepository(AppDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
             _passwordHasher = passwordHasher;
@@ -37,6 +37,11 @@ namespace BackendApi.Data.Repositories
 
         public async Task<User> RegisterUser(RegisterViewModel viewModel)
         {
+            if (_context.Users.Any(u => u.Name == viewModel.Name))
+            {
+                return null;
+            }
+
             var user = new User { Name = viewModel.Name };
             user.PasswordHash = _passwordHasher.HashPassword(user, viewModel.Password);
             _context.Add(user);

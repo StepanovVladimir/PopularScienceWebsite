@@ -30,7 +30,7 @@ namespace BackendApi.Controllers
 
         [Route("login")]
         [HttpPost]
-        public IActionResult Login([FromBody]LoginViewModel request)
+        public IActionResult Login(LoginViewModel request)
         {
             var user = _userRepository.GetUser(request);
             if (user != null)
@@ -45,7 +45,7 @@ namespace BackendApi.Controllers
 
         [Route("register")]
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel request)
+        public async Task<IActionResult> Register(RegisterViewModel request)
         {
             var user = await _userRepository.RegisterUser(request);
             if (user != null)
