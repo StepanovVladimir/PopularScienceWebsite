@@ -19,12 +19,12 @@ namespace BackendApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IUserRepository _userRepository;
+        private IUserRepository _repository;
         private JwtGenerator _jwtGenerator;
 
-        public AuthController(IUserRepository userRepository, JwtGenerator jwtGenerator)
+        public AuthController(IUserRepository repository, JwtGenerator jwtGenerator)
         {
-            _userRepository = userRepository;
+            _repository = repository;
             _jwtGenerator = jwtGenerator;
         }
 
@@ -32,12 +32,12 @@ namespace BackendApi.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel request)
         {
-            var user = _userRepository.GetUser(request);
+            var user = _repository.GetUser(request);
             if (user != null)
             {
                 var token = _jwtGenerator.GenerateJwt(user);
 
-                return Ok(new { access_token = token });
+                return Ok(new { AccessToken = token });
             }
 
             return Unauthorized();
@@ -47,7 +47,7 @@ namespace BackendApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel request)
         {
-            var user = await _userRepository.RegisterUser(request);
+            var user = await _repository.RegisterUser(request);
             if (user != null)
             {
                 var token = _jwtGenerator.GenerateJwt(user);

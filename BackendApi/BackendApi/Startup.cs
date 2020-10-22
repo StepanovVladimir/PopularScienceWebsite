@@ -63,9 +63,12 @@ namespace BackendApi
             services.AddTransient<IImagesFileManager, ImagesFileManager>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IArticleRepository, ArticleRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
             services.AddTransient<JwtGenerator, JwtGenerator>();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddCors(options =>
             {

@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace BackendApi.Models
 {
-    public class Role
+    public class Comment
     {
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Text { get; set; }
 
-        public List<UserRole> UserRoles { get; set; }
+        public int ArticleId { get; set; }
+
+        public Article Article { get; set; }
+
+        public int UserId { get; set; }
+
+        public User User { get; set; }
     }
 }

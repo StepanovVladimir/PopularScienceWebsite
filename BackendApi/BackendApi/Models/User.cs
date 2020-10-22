@@ -19,9 +19,6 @@ namespace BackendApi.Models
 
         public List<UserRole> UserRoles { get; set; }
 
-        public User()
-        {
-            UserRoles = new List<UserRole>();
-        }
+        public List<Comment> Comments { get; set; }
     }
 }

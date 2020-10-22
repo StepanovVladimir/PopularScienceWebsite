@@ -24,8 +24,7 @@ namespace BackendApi.Controllers
 
         public IActionResult Index()
         {
-            var articles = _repository.GetArticles();
-            return Ok(articles);
+            return Ok(_repository.GetArticles());
         }
 
         [HttpGet("{id}")]

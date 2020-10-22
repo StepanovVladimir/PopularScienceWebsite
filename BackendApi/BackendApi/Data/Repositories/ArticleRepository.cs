@@ -118,10 +118,5 @@ namespace BackendApi.Data.Repositories
 
             return await _context.SaveChangesAsync() > 0;
         }
-
-        public FileStream GetImageStream(string image)
-        {
-            return _fileManager.GetImageStream(image);
-        }
     }
 }

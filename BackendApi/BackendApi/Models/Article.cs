@@ -23,5 +23,7 @@ namespace BackendApi.Models
         public string Image { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }

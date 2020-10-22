@@ -15,6 +15,5 @@ namespace BackendApi.Data.Repositories
         Task<Article> CreateArticle(ArticleViewModel viewModel);
         Task<Article> UpdateArticle(int id, ArticleViewModel viewModel);
         Task<bool> DeleteArticle(int id);
-        FileStream GetImageStream(string image);
     }
 }
