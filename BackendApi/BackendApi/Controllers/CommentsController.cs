@@ -23,11 +23,27 @@ namespace BackendApi.Controllers
             _repository = repository;
         }
 
-        [HttpGet("{articleId}")]
+        [HttpGet("article/{articleId}")]
         public IActionResult ArticleComments(int articleId)
         {
             var comments = _repository.GetArticleComments(articleId);
-            return Ok(comments.ConvertAll(c => new { c.Id, c.Text, c.ArticleId, c.UserId, UserName = c.User.Name }));
+            return Ok(comments.ConvertAll(c => new { c.Id, c.Text, c.ArticleId, c.UserId, c.CreatedAt, UserName = c.User.Name }));
+        }
+
+        [HttpGet("user/{idUser}")]
+        [Authorize]
+        public IActionResult UserComments(int userId)
+        {
+            var comments = _repository.GetUserComments(userId);
+            return Ok(comments.ConvertAll(c => new { c.Id, c.Text, c.ArticleId, c.UserId, c.CreatedAt, ArticleTitle = c.Article.Title }));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Moderator")]
+        public IActionResult Comments()
+        {
+            var comments = _repository.GetComments();
+            return Ok(comments.ConvertAll(c => new { c.Id, c.Text, c.ArticleId, c.UserId, c.CreatedAt, ArticleTitle = c.Article.Title, UserName = c.User.Name }));
         }
 
         [HttpPost]
@@ -52,7 +68,7 @@ namespace BackendApi.Controllers
 
             if (comment != null)
             {
-                return Ok(new { comment.Id, comment.Text, comment.ArticleId, comment.UserId, UserName = comment.User.Name });
+                return Ok(new { comment.Id, comment.Text, comment.ArticleId, comment.UserId, comment.CreatedAt, UserName = comment.User.Name });
             }
 
             return StatusCode(500);
@@ -75,7 +91,7 @@ namespace BackendApi.Controllers
 
             if (comment != null)
             {
-                return Ok(new { comment.Id, comment.Text, comment.ArticleId, comment.UserId, UserName = comment.User.Name });
+                return Ok(new { comment.Id, comment.Text, comment.ArticleId, comment.UserId, comment.CreatedAt, UserName = comment.User.Name });
             }
 
             return StatusCode(500);

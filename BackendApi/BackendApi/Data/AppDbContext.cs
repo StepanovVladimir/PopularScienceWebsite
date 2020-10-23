@@ -46,6 +46,9 @@ namespace BackendApi.Data
                 .HasIndex(a => a.CreatedAt);
 
             modelBuilder.Entity<Comment>()
+                .HasIndex(c => c.CreatedAt);
+
+            modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Article)
                 .WithMany(a => a.Comments)
                 .HasForeignKey(c => c.ArticleId);

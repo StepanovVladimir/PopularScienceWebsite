@@ -22,6 +22,16 @@ namespace BackendApi.Data.Repositories
             return _context.Comments.Where(c => c.ArticleId == articleId).Include(c => c.User).ToList();
         }
 
+        public List<Comment> GetUserComments(int userId)
+        {
+            return _context.Comments.Where(c => c.UserId == userId).OrderByDescending(c => c.CreatedAt).Include(c => c.Article).ToList();
+        }
+
+        public List<Comment> GetComments()
+        {
+            return _context.Comments.OrderByDescending(c => c.CreatedAt).Include(c => c.Article).Include(c => c.User).ToList();
+        }
+
         public async Task<Comment> CreateComment(CommentViewModel viewModel, int userId)
         {
             if (!_context.Articles.Any(a => a.Id == viewModel.ArticleId))
@@ -33,7 +43,8 @@ namespace BackendApi.Data.Repositories
             {
                 Text = viewModel.Text,
                 ArticleId = viewModel.ArticleId.Value,
-                UserId = userId
+                UserId = userId,
+                CreatedAt = DateTime.Now,
             };
 
             _context.Add(comment);
