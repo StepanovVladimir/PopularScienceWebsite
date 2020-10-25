@@ -33,5 +33,7 @@ namespace BackendApi.Models
         public DateTime CreatedAt { get; set; }
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
+
+        public List<ArticleCategory> ArticleCategories { get; set; } = new List<ArticleCategory>();
     }
 }

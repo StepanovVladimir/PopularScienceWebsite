@@ -18,6 +18,7 @@ namespace BackendApi.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,6 +58,22 @@ namespace BackendApi.Data
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId);
+
+            modelBuilder.Entity<Category>()
+                .HasIndex(c => c.Name);
+
+            modelBuilder.Entity<ArticleCategory>()
+                .HasKey(ac => new { ac.ArticleId, ac.CategoryId });
+
+            modelBuilder.Entity<ArticleCategory>()
+                .HasOne(ac => ac.Article)
+                .WithMany(a => a.ArticleCategories)
+                .HasForeignKey(ac => ac.ArticleId);
+
+            modelBuilder.Entity<ArticleCategory>()
+                .HasOne(ac => ac.Category)
+                .WithMany(c => c.ArticleCategories)
+                .HasForeignKey(ac => ac.CategoryId);
         }
     }
 }

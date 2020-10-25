@@ -1,6 +1,7 @@
 ﻿using BackendApi.Data.FileManagers;
 using BackendApi.Models;
 using BackendApi.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,12 +36,22 @@ namespace BackendApi.Data.Repositories
                 .ToList();
         }
 
+        public List<Article> GetCategoryArticles(int categoryId)
+        {
+            return _context.Articles.Include(a => a.ArticleCategories).Where(a => a.ArticleCategories.Any(ac => ac.CategoryId == categoryId)).ToList();
+        }
+
         public Article GetArticle(int id)
         {
             return _context.Articles.Find(id);
         }
 
-        public async Task<Article> CreateArticle(ArticleViewModel viewModel)
+        public Article GetArticleWithCategoryIds(int id)
+        {
+            return _context.Articles.Include(a => a.ArticleCategories).FirstOrDefault(a => a.Id == id);
+        }
+
+        public async Task<int> CreateArticle(ArticleViewModel viewModel)
         {
             var article = new Article
             {
@@ -56,21 +67,28 @@ namespace BackendApi.Data.Repositories
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return null;
+                return 0;
             }
 
             _context.Add(article);
             if (await _context.SaveChangesAsync() > 0)
             {
-                return article;
+                foreach (int categoryId in viewModel.CategoryIds)
+                {
+                    _context.Add(new ArticleCategory { ArticleId = article.Id, CategoryId = categoryId });
+                }
+
+                await _context.SaveChangesAsync();
+
+                return article.Id;
             }
 
-            return null;
+            return 0;
         }
 
-        public async Task<Article> UpdateArticle(int id, ArticleViewModel viewModel)
+        public async Task<bool> UpdateArticle(int id, ArticleViewModel viewModel)
         {
-            var article = GetArticle(id);
+            var article = GetArticleWithCategoryIds(id);
 
             if (article == null)
             {
@@ -90,18 +108,27 @@ namespace BackendApi.Data.Repositories
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
-                    return null;
+                    return false;
                 }
                 _fileManager.DeleteImage(previousImage);
             }
 
             _context.Update(article);
-            if (await _context.SaveChangesAsync() > 0)
+
+            foreach (ArticleCategory articleCategory in article.ArticleCategories)
             {
-                return article;
+                if (!viewModel.CategoryIds.Any(ci => ci == articleCategory.CategoryId))
+                {
+                    _context.Remove(articleCategory);
+                }
             }
 
-            return null;
+            foreach (int categoryId in viewModel.CategoryIds)
+            {
+                _context.Add(new ArticleCategory { ArticleId = article.Id, CategoryId = categoryId });
+            }
+
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> DeleteArticle(int id)

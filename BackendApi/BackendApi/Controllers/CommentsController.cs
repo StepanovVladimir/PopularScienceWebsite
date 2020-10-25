@@ -27,23 +27,48 @@ namespace BackendApi.Controllers
         public IActionResult ArticleComments(int articleId)
         {
             var comments = _repository.GetArticleComments(articleId);
-            return Ok(comments.ConvertAll(c => new { c.Id, c.Text, c.ArticleId, c.UserId, c.CreatedAt, UserName = c.User.Name }));
+            return Ok(comments.ConvertAll(c => new
+            {
+                c.Id,
+                c.Text,
+                c.ArticleId,
+                c.UserId,
+                c.CreatedAt,
+                UserName = c.User.Name
+            }));
         }
 
-        [HttpGet("user/{idUser}")]
+        [HttpGet("user")]
         [Authorize]
-        public IActionResult UserComments(int userId)
+        public IActionResult UserComments()
         {
+            var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var comments = _repository.GetUserComments(userId);
-            return Ok(comments.ConvertAll(c => new { c.Id, c.Text, c.ArticleId, c.UserId, c.CreatedAt, ArticleTitle = c.Article.Title }));
+            return Ok(comments.ConvertAll(c => new
+            {
+                c.Id,
+                c.Text,
+                c.ArticleId,
+                c.UserId,
+                c.CreatedAt,
+                ArticleTitle = c.Article.Title
+            }));
         }
 
-        [HttpGet]
         [Authorize(Roles = "Moderator")]
         public IActionResult Comments()
         {
             var comments = _repository.GetComments();
-            return Ok(comments.ConvertAll(c => new { c.Id, c.Text, c.ArticleId, c.UserId, c.CreatedAt, ArticleTitle = c.Article.Title, UserName = c.User.Name }));
+            return Ok(comments.ConvertAll(c => new
+            {
+                c.Id,
+                c.Text,
+                c.ArticleId,
+                c.UserId,
+                c.CreatedAt,
+                ArticleTitle = c.Article.Title,
+                UserName = c.User.Name
+            }));
         }
 
         [HttpPost]
@@ -68,7 +93,15 @@ namespace BackendApi.Controllers
 
             if (comment != null)
             {
-                return Ok(new { comment.Id, comment.Text, comment.ArticleId, comment.UserId, comment.CreatedAt, UserName = comment.User.Name });
+                return Ok(new
+                {
+                    comment.Id,
+                    comment.Text,
+                    comment.ArticleId,
+                    comment.UserId,
+                    comment.CreatedAt,
+                    UserName = comment.User.Name
+                });
             }
 
             return StatusCode(500);
@@ -91,7 +124,15 @@ namespace BackendApi.Controllers
 
             if (comment != null)
             {
-                return Ok(new { comment.Id, comment.Text, comment.ArticleId, comment.UserId, comment.CreatedAt, UserName = comment.User.Name });
+                return Ok(new
+                {
+                    comment.Id,
+                    comment.Text,
+                    comment.ArticleId,
+                    comment.UserId,
+                    comment.CreatedAt,
+                    UserName = comment.User.Name
+                });
             }
 
             return StatusCode(500);
@@ -128,7 +169,7 @@ namespace BackendApi.Controllers
 
             if (successfullDelete)
             {
-                return Ok();
+                return NoContent();
             }
 
             return StatusCode(500);

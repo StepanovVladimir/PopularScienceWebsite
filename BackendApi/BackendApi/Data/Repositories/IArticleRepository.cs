@@ -11,9 +11,11 @@ namespace BackendApi.Data.Repositories
     public interface IArticleRepository
     {
         List<Article> GetArticles();
+        List<Article> GetCategoryArticles(int categoryId);
         Article GetArticle(int id);
-        Task<Article> CreateArticle(ArticleViewModel viewModel);
-        Task<Article> UpdateArticle(int id, ArticleViewModel viewModel);
+        Article GetArticleWithCategoryIds(int id);
+        Task<int> CreateArticle(ArticleViewModel viewModel);
+        Task<bool> UpdateArticle(int id, ArticleViewModel viewModel);
         Task<bool> DeleteArticle(int id);
     }
 }

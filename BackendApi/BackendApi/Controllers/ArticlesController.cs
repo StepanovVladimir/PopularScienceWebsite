@@ -27,6 +27,12 @@ namespace BackendApi.Controllers
             return Ok(_repository.GetArticles());
         }
 
+        [HttpGet("category/{categoryId}")]
+        public IActionResult CategoryArticles(int categoryId)
+        {
+            return Ok(_repository.GetCategoryArticles(categoryId));
+        }
+
         [HttpGet("{id}")]
         public IActionResult Show(int id)
         {
@@ -39,6 +45,26 @@ namespace BackendApi.Controllers
             return Ok(article);
         }
 
+        [HttpGet("{id}/categories")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult ShowToEdit(int id)
+        {
+            var article = _repository.GetArticleWithCategoryIds(id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new
+            {
+                article.Id,
+                article.Title,
+                article.Description,
+                article.Content,
+                CategoryIds = article.ArticleCategories.ConvertAll(ac => ac.CategoryId)
+            });
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm]ArticleViewModel request)
@@ -48,10 +74,10 @@ namespace BackendApi.Controllers
                 return BadRequest();
             }
 
-            var article = await _repository.CreateArticle(request);
-            if (article != null)
+            var articleId = await _repository.CreateArticle(request);
+            if (articleId != 0)
             {
-                return Ok(article);
+                return Ok(articleId);
             }
 
             return StatusCode(500);
@@ -61,19 +87,16 @@ namespace BackendApi.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm]ArticleViewModel request)
         {
-            Article article;
             try
             {
-                article = await _repository.UpdateArticle(id, request);
+                if (await _repository.UpdateArticle(id, request))
+                {
+                    return NoContent();
+                }
             }
             catch (Exception)
             {
                 return NotFound();
-            }
-
-            if (article != null)
-            {
-                return Ok(article);
             }
 
             return StatusCode(500);
@@ -87,7 +110,7 @@ namespace BackendApi.Controllers
             {
                 if (await _repository.DeleteArticle(id))
                 {
-                    return Ok();
+                    return NoContent();
                 }
             }
             catch (Exception)
