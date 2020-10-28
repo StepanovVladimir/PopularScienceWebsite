@@ -26,7 +26,7 @@ namespace BackendApi
 
             var adminRole = new Role { Name = "Admin" };
             var moderatorRole = new Role { Name = "Moderator" };
-                
+
             if (!context.Roles.Any())
             {
                 context.Add(adminRole);

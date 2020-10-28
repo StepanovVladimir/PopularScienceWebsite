@@ -20,6 +20,11 @@ namespace BackendApi.Data.Repositories
             _passwordHasher = passwordHasher;
         }
 
+        public List<User> GetUsers()
+        {
+            return _context.Users.Include(u => u.UserRoles).OrderBy(u => u.Name).ToList();
+        }
+
         public User GetUser(LoginViewModel viewModel)
         {
             var user = _context.Users.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).FirstOrDefault(u => u.Name == viewModel.Name);
@@ -52,6 +57,46 @@ namespace BackendApi.Data.Repositories
             }
 
             return null;
+        }
+
+        public async Task<bool> GiveRights(int id)
+        {
+            var user = _context.Users.Include(u => u.UserRoles).FirstOrDefault(u => u.Id == id);
+            
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
+            if (user.UserRoles.Any(ur => ur.RoleId == 2))
+            {
+                return true;
+            }
+
+            user.UserRoles.Add(new UserRole { UserId = id, RoleId = 2 });
+
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> DepriveRights(int id)
+        {
+            var user = _context.Users.Include(u => u.UserRoles).FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
+            var userRole = user.UserRoles.Where(ur => ur.RoleId == 2).FirstOrDefault();
+
+            if (userRole == null)
+            {
+                return true;
+            }
+
+            user.UserRoles.Remove(userRole);
+
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

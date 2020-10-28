@@ -4,14 +4,16 @@ using BackendApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackendApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201025071200_Likes")]
+    partial class Likes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,23 +214,6 @@ namespace BackendApi.Migrations
                     b.ToTable("user_role");
                 });
 
-            modelBuilder.Entity("BackendApi.Models.View", b =>
-                {
-                    b.Property<int>("ArticleId")
-                        .HasColumnName("id_article")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnName("id_user")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArticleId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("view");
-                });
-
             modelBuilder.Entity("BackendApi.Models.ArticleCategory", b =>
                 {
                     b.HasOne("BackendApi.Models.Article", "Article")
@@ -284,21 +269,6 @@ namespace BackendApi.Migrations
 
                     b.HasOne("BackendApi.Models.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BackendApi.Models.View", b =>
-                {
-                    b.HasOne("BackendApi.Models.Article", "Article")
-                        .WithMany("Views")
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BackendApi.Models.User", "User")
-                        .WithMany("Views")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

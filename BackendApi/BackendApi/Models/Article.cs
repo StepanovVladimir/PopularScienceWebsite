@@ -32,8 +32,11 @@ namespace BackendApi.Models
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
-        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<Comment> Comments { get; set; } = new List<Comment>(); 
 
         public List<ArticleCategory> ArticleCategories { get; set; } = new List<ArticleCategory>();
+
+        public List<Like> Likes { get; set; } = new List<Like>();
+        public List<View> Views { get; set; } = new List<View>();
     }
 }

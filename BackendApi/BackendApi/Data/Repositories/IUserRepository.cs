@@ -9,7 +9,10 @@ namespace BackendApi.Data.Repositories
 {
     public interface IUserRepository
     {
+        List<User> GetUsers();
         User GetUser(LoginViewModel viewModel);
         Task<User> RegisterUser(RegisterViewModel viewModel);
+        Task<bool> GiveRights(int id);
+        Task<bool> DepriveRights(int id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BackendApi.Data.Repositories;
 using BackendApi.Models;
@@ -33,6 +34,22 @@ namespace BackendApi.Controllers
             return Ok(_repository.GetCategoryArticles(categoryId));
         }
 
+        [HttpGet("favourite")]
+        [Authorize]
+        public IActionResult Favourite()
+        {
+            var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            return Ok(_repository.GetFavouriteArticles(userId));
+        }
+
+        [HttpGet("seen")]
+        [Authorize]
+        public IActionResult Seen()
+        {
+            var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            return Ok(_repository.GetSeenArticles(userId));
+        }
+
         [HttpGet("{id}")]
         public IActionResult Show(int id)
         {
@@ -40,6 +57,12 @@ namespace BackendApi.Controllers
             if (article == null)
             {
                 return NotFound();
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                _repository.AddView(id, userId);
             }
 
             return Ok(article);

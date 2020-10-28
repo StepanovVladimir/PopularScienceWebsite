@@ -38,7 +38,47 @@ namespace BackendApi.Data.Repositories
 
         public List<Article> GetCategoryArticles(int categoryId)
         {
-            return _context.Articles.Include(a => a.ArticleCategories).Where(a => a.ArticleCategories.Any(ac => ac.CategoryId == categoryId)).ToList();
+            return _context.Articles.Include(a => a.ArticleCategories).Where(a => a.ArticleCategories.Any(ac => ac.CategoryId == categoryId))
+                .Select(a => new Article
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Image = a.Image,
+                    CreatedAt = a.CreatedAt
+                })
+                .OrderByDescending(a => a.CreatedAt)
+                .ToList();
+        }
+
+        public List<Article> GetFavouriteArticles(int userId)
+        {
+            return _context.Articles.Include(a => a.Likes).Where(a => a.Likes.Any(l => l.UserId == userId))
+                .Select(a => new Article
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Image = a.Image,
+                    CreatedAt = a.CreatedAt
+                })
+                .OrderByDescending(a => a.CreatedAt)
+                .ToList();
+        }
+
+        public List<Article> GetSeenArticles(int userId)
+        {
+            return _context.Articles.Include(a => a.Views).Where(a => a.Views.Any(v => v.UserId == userId))
+                .Select(a => new Article
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Image = a.Image,
+                    CreatedAt = a.CreatedAt
+                })
+                .OrderByDescending(a => a.CreatedAt)
+                .ToList();
         }
 
         public Article GetArticle(int id)
@@ -142,6 +182,18 @@ namespace BackendApi.Data.Repositories
 
             _fileManager.DeleteImage(article.Image);
             _context.Remove(article);
+
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> AddView(int articleId, int userId)
+        {
+            if (_context.Views.Any(v => v.ArticleId == articleId && v.UserId == userId))
+            {
+                return true;
+            }
+
+            _context.Add(new View { ArticleId = articleId, UserId = userId });
 
             return await _context.SaveChangesAsync() > 0;
         }

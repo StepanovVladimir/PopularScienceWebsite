@@ -65,6 +65,8 @@ namespace BackendApi
             services.AddTransient<IArticleRepository, ArticleRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ILikeRepository, LikeRepository>();
+            services.AddTransient<IViewRepository, ViewRepository>();
             services.AddTransient<JwtGenerator, JwtGenerator>();
 
             services.AddControllers()

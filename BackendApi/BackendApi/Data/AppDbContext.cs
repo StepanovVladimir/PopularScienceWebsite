@@ -19,6 +19,8 @@ namespace BackendApi.Data
         public DbSet<Article> Articles { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<View> Views { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,6 +76,32 @@ namespace BackendApi.Data
                 .HasOne(ac => ac.Category)
                 .WithMany(c => c.ArticleCategories)
                 .HasForeignKey(ac => ac.CategoryId);
+
+            modelBuilder.Entity<Like>()
+                .HasKey(l => new { l.ArticleId, l.UserId });
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.Article)
+                .WithMany(a => a.Likes)
+                .HasForeignKey(l => l.ArticleId);
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.User)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(l => l.UserId);
+
+            modelBuilder.Entity<View>()
+                .HasKey(l => new { l.ArticleId, l.UserId });
+
+            modelBuilder.Entity<View>()
+                .HasOne(l => l.Article)
+                .WithMany(a => a.Views)
+                .HasForeignKey(l => l.ArticleId);
+
+            modelBuilder.Entity<View>()
+                .HasOne(l => l.User)
+                .WithMany(u => u.Views)
+                .HasForeignKey(l => l.UserId);
         }
     }
 }
