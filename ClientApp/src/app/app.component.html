@@ -1,0 +1,10 @@
+<div>
+  <div class="topnav">
+    <a [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }">Научно-популяный сайт</a>
+    <a [routerLink]="['/login']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Войти</a>
+    <a [routerLink]="['/register']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Регистрация</a>
+    <a [routerLink]="['/home']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='isLoggedIn'>Моя страница</a>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

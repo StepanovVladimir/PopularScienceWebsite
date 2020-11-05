@@ -52,7 +52,7 @@ namespace BackendApi.Controllers
             {
                 var token = _jwtGenerator.GenerateJwt(user);
 
-                return Ok(new { access_token = token });
+                return Ok(new { AccessToken = token });
             }
 
             return Unauthorized();

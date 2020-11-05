@@ -23,6 +23,12 @@ namespace BackendApi.Controllers
             _repository = repository;
         }
 
+        [HttpGet("article/{articleId}/count")]
+        public IActionResult Count(int articleId)
+        {
+            return Ok(new { Count = _repository.GetCommentsCount(articleId) });
+        }
+
         [HttpGet("article/{articleId}")]
         public IActionResult ArticleComments(int articleId)
         {
@@ -33,7 +39,7 @@ namespace BackendApi.Controllers
                 c.Text,
                 c.ArticleId,
                 c.UserId,
-                c.CreatedAt,
+                CreatedAt = c.CreatedAt.ToShortDateString(),
                 UserName = c.User.Name
             }));
         }
@@ -50,7 +56,7 @@ namespace BackendApi.Controllers
                 c.Text,
                 c.ArticleId,
                 c.UserId,
-                c.CreatedAt,
+                CreatedAt = c.CreatedAt.ToShortDateString(),
                 ArticleTitle = c.Article.Title
             }));
         }
@@ -65,7 +71,7 @@ namespace BackendApi.Controllers
                 c.Text,
                 c.ArticleId,
                 c.UserId,
-                c.CreatedAt,
+                CreatedAt = c.CreatedAt.ToShortDateString(),
                 ArticleTitle = c.Article.Title,
                 UserName = c.User.Name
             }));
@@ -99,7 +105,7 @@ namespace BackendApi.Controllers
                     comment.Text,
                     comment.ArticleId,
                     comment.UserId,
-                    comment.CreatedAt,
+                    CreatedAt = comment.CreatedAt.ToShortDateString(),
                     UserName = comment.User.Name
                 });
             }
@@ -130,7 +136,7 @@ namespace BackendApi.Controllers
                     comment.Text,
                     comment.ArticleId,
                     comment.UserId,
-                    comment.CreatedAt,
+                    CreatedAt = comment.CreatedAt.ToShortDateString(),
                     UserName = comment.User.Name
                 });
             }

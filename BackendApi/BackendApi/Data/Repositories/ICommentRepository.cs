@@ -9,6 +9,7 @@ namespace BackendApi.Data.Repositories
 {
     public interface ICommentRepository
     {
+        int GetCommentsCount(int articleId);
         List<Comment> GetArticleComments(int articleId);
         List<Comment> GetUserComments(int userId);
         List<Comment> GetComments();

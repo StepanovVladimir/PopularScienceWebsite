@@ -1,0 +1,63 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.article {
+    font-family: "Source Sans Pro";
+    margin-bottom: 50px;
+}
+
+.article_title {
+    line-height: 45px;
+    color: rgb(80,106,133);
+}
+
+.article_title_link {
+    line-height: 45px;
+    font-size: 2.25rem;
+    color: rgb(80,106,133);
+    transition: all 0.3s ease;
+}
+
+.article_title_link:hover {
+    color: rgb(0,188,156);
+    text-decoration: none;
+}
+
+.article_image {
+    width: 100%;
+}
+
+.article_btn {
+    float: left;
+    margin-right: 10px;
+}
+
+.date {
+    color: rgb(128, 128, 128);
+}
+
+.clear {
+    clear: both;
+}
+
+.link {
+    color: rgb(80,106,133);
+    transition: all 0.3s ease;
+}
+
+.link:hover {
+    color: rgb(0,188,156);
+    text-decoration: none;
+}
+
+@media screen and (max-width: 991px) {
+    .article_title {
+        font-size: 1.5rem;
+    }
+
+    .article_title_link {
+        font-size: 1.5rem;
+    }
+}

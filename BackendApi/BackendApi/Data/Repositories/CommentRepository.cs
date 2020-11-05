@@ -17,6 +17,11 @@ namespace BackendApi.Data.Repositories
             _context = context;
         }
 
+        public int GetCommentsCount(int articleId)
+        {
+            return _context.Comments.Where(c => c.ArticleId == articleId).Count();
+        }
+
         public List<Comment> GetArticleComments(int articleId)
         {
             return _context.Comments.Where(c => c.ArticleId == articleId).Include(c => c.User).ToList();

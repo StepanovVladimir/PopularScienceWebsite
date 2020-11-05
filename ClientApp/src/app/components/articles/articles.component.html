@@ -1,0 +1,8 @@
+<mat-card>
+    <div *ngFor="let article of articles" class="article">
+        <p class="article_title_link">{{ article.title }}</p>
+        <img src="{{ article.image }}" alt="{{ article.title }}" class="article_image">
+        <p>{{ article.description }}</p>
+        <p class="date">{{ article.createdAt }}</p>
+    </div>
+</mat-card>

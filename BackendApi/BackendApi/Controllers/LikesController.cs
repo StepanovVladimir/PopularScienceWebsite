@@ -40,7 +40,7 @@ namespace BackendApi.Controllers
         public async Task<IActionResult> Put(int articleId)
         {
             var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            
+
             try
             {
                 if (await _repository.PutLike(articleId, userId))

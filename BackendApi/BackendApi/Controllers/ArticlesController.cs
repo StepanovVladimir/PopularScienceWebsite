@@ -16,6 +16,8 @@ namespace BackendApi.Controllers
     [ApiController]
     public class ArticlesController : ControllerBase
     {
+        private string ImagesUrl { get; } = "https://localhost:5001/api/images/";
+
         private IArticleRepository _repository;
 
         public ArticlesController(IArticleRepository repository)
@@ -25,13 +27,29 @@ namespace BackendApi.Controllers
 
         public IActionResult Index()
         {
-            return Ok(_repository.GetArticles());
+            var articles = _repository.GetArticles();
+            return Ok(articles.ConvertAll(a => new
+            {
+                a.Id,
+                a.Title,
+                a.Description,
+                Image = ImagesUrl + a.Image,
+                CreatedAt = a.CreatedAt.ToShortDateString()
+            }));
         }
 
         [HttpGet("category/{categoryId}")]
         public IActionResult CategoryArticles(int categoryId)
         {
-            return Ok(_repository.GetCategoryArticles(categoryId));
+            var articles = _repository.GetCategoryArticles(categoryId);
+            return Ok(articles.ConvertAll(a => new
+            {
+                a.Id,
+                a.Title,
+                a.Description,
+                Image = ImagesUrl + a.Image,
+                CreatedAt = a.CreatedAt.ToShortDateString()
+            }));
         }
 
         [HttpGet("favourite")]
@@ -39,7 +57,15 @@ namespace BackendApi.Controllers
         public IActionResult Favourite()
         {
             var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            return Ok(_repository.GetFavouriteArticles(userId));
+            var articles = _repository.GetFavouriteArticles(userId);
+            return Ok(articles.ConvertAll(a => new
+            {
+                a.Id,
+                a.Title,
+                a.Description,
+                Image = ImagesUrl + a.Image,
+                CreatedAt = a.CreatedAt.ToShortDateString()
+            }));
         }
 
         [HttpGet("seen")]
@@ -47,7 +73,15 @@ namespace BackendApi.Controllers
         public IActionResult Seen()
         {
             var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            return Ok(_repository.GetSeenArticles(userId));
+            var articles = _repository.GetSeenArticles(userId);
+            return Ok(articles.ConvertAll(a => new
+            {
+                a.Id,
+                a.Title,
+                a.Description,
+                Image = ImagesUrl + a.Image,
+                CreatedAt = a.CreatedAt.ToShortDateString()
+            }));
         }
 
         [HttpGet("{id}")]
@@ -65,7 +99,15 @@ namespace BackendApi.Controllers
                 _repository.AddView(id, userId);
             }
 
-            return Ok(article);
+            return Ok(new
+            {
+                article.Id,
+                article.Title,
+                article.Description,
+                article.Content,
+                Image = ImagesUrl + article.Image,
+                CreatedAt = article.CreatedAt.ToShortDateString()
+            });
         }
 
         [HttpGet("{id}/categories")]
@@ -100,7 +142,7 @@ namespace BackendApi.Controllers
             var articleId = await _repository.CreateArticle(request);
             if (articleId != 0)
             {
-                return Ok(articleId);
+                return Ok(new { Id = articleId });
             }
 
             return StatusCode(500);
