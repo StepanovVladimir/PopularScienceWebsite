@@ -10,7 +10,7 @@ namespace BackendApi.Data.Repositories
     {
         int GetLikesCount(int articleId);
         bool LikeIsPutted(int articleId, int userId);
-        Task<bool> PutLike(int articleId, int userId);
-        Task<bool> CancelLike(int articleId, int userId);
+        Task<int> PutLike(int articleId, int userId);
+        Task<int> CancelLike(int articleId, int userId);
     }
 }

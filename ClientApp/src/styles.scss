@@ -1,10 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+//html, body { height: 100%; }
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    font-family: "Source Sans Pro";
+}
+
+.showing_validation.ng-touched.ng-invalid {
+    border-color: #dc3545;
+}
+
+.showing_validation.ng-valid {
+    border-color: #28a745;
+}
 
 .article {
-    font-family: "Source Sans Pro";
     margin-bottom: 50px;
 }
 
@@ -18,24 +28,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 2.25rem;
     color: rgb(80,106,133);
     transition: all 0.3s ease;
-}
 
-.article_title_link:hover {
-    color: rgb(0,188,156);
-    text-decoration: none;
+    &:hover {
+        color: rgb(0,188,156);
+        text-decoration: none;
+    }
 }
 
 .article_image {
     width: 100%;
 }
 
-.article_btn {
+.article_bottom {
     float: left;
     margin-right: 10px;
 }
 
-.date {
+.grey {
     color: rgb(128, 128, 128);
+}
+
+.small {
+    font-size: 0.75rem;
 }
 
 .clear {
@@ -45,11 +59,40 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .link {
     color: rgb(80,106,133);
     transition: all 0.3s ease;
+
+    &:hover {
+        color: rgb(0,188,156);
+        text-decoration: none;
+    }
 }
 
-.link:hover {
-    color: rgb(0,188,156);
+.active_icon {
+    color: rgb(50, 50, 50);
     text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+    }
+}
+
+.comment_icon {
+    margin-left: 5px;
+    font-size: 0.9rem;
+}
+
+.putted_like {
+    color: rgb(225, 25, 25);
+
+    &:hover {
+        color: rgb(225, 25, 25);
+        text-decoration: none;
+    }
+}
+
+.comment_edit {
+    margin-bottom: 10px;
 }
 
 @media screen and (max-width: 991px) {

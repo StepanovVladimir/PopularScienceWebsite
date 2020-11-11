@@ -15,10 +15,10 @@ namespace BackendApi.Data.Repositories
         List<Article> GetFavouriteArticles(int userId);
         List<Article> GetSeenArticles(int userId);
         Article GetArticle(int id);
+        Task<Article> GetArticle(int id, int userId);
         Article GetArticleWithCategoryIds(int id);
         Task<int> CreateArticle(ArticleViewModel viewModel);
         Task<bool> UpdateArticle(int id, ArticleViewModel viewModel);
         Task<bool> DeleteArticle(int id);
-        Task<bool> AddView(int articleId, int userId);
     }
 }

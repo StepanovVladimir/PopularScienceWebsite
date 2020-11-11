@@ -12,7 +12,7 @@ export class AppComponent {
     private authService: AuthService
   ) { }
 
-  public get isLoggedIn(): boolean {
+  get isLoggedIn(): boolean {
     return this.authService.isAuthenticated()
   }
 }

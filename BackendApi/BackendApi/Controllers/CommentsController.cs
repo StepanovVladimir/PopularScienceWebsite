@@ -87,27 +87,16 @@ namespace BackendApi.Controllers
             }
 
             var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            Comment comment;
             try
             {
-                comment = await _repository.CreateComment(request, userId);
+                if (await _repository.CreateComment(request, userId))
+                {
+                    return NoContent();
+                }
             }
             catch (Exception)
             {
                 return BadRequest();
-            }
-
-            if (comment != null)
-            {
-                return Ok(new
-                {
-                    comment.Id,
-                    comment.Text,
-                    comment.ArticleId,
-                    comment.UserId,
-                    CreatedAt = comment.CreatedAt.ToShortDateString(),
-                    UserName = comment.User.Name
-                });
             }
 
             return StatusCode(500);
@@ -118,27 +107,16 @@ namespace BackendApi.Controllers
         public async Task<IActionResult> Update(int id, CommentViewModel request)
         {
             var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            Comment comment;
             try
             {
-                comment = await _repository.UpdateComment(id, request, userId);
+                if (await _repository.UpdateComment(id, request, userId))
+                {
+                    return NoContent();
+                }
             }
             catch (Exception)
             {
                 return NotFound();
-            }
-
-            if (comment != null)
-            {
-                return Ok(new
-                {
-                    comment.Id,
-                    comment.Text,
-                    comment.ArticleId,
-                    comment.UserId,
-                    CreatedAt = comment.CreatedAt.ToShortDateString(),
-                    UserName = comment.User.Name
-                });
             }
 
             return StatusCode(500);

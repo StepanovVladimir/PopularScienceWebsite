@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Article } from 'src/app/models/article';
 import { ArticlesService } from 'src/app/services/articles.service';
+import { CommentsService } from 'src/app/services/comments.service';
+import { LikesService } from 'src/app/services/likes.service';
+import { ViewsService } from 'src/app/services/views.service';
 
 @Component({
   selector: 'app-articles',
@@ -10,10 +13,12 @@ import { ArticlesService } from 'src/app/services/articles.service';
 export class ArticlesComponent implements OnInit {
 
   articles: Article[] = []
-  columns = ['id', 'title', 'description', 'image', 'createdAt']
 
   constructor(
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private viewsService: ViewsService,
+    private likesService: LikesService,
+    private commentsService: CommentsService
   ) { }
 
   ngOnInit(): void {
@@ -22,5 +27,4 @@ export class ArticlesComponent implements OnInit {
         this.articles = res
       })
   }
-
 }

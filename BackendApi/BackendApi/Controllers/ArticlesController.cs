@@ -85,18 +85,22 @@ namespace BackendApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Show(int id)
+        public async Task<IActionResult> Show(int id)
         {
-            var article = _repository.GetArticle(id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-
+            Article article;
             if (User.Identity.IsAuthenticated)
             {
                 var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                _repository.AddView(id, userId);
+                article = await _repository.GetArticle(id, userId);
+            }
+            else
+            {
+                article = _repository.GetArticle(id);
+            }
+
+            if (article == null)
+            {
+                return NotFound();
             }
 
             return Ok(new

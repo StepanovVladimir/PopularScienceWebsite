@@ -86,6 +86,25 @@ namespace BackendApi.Data.Repositories
             return _context.Articles.Find(id);
         }
 
+        public async Task<Article> GetArticle(int id, int userId)
+        {
+            var article = _context.Articles.Find(id);
+            if (article == null)
+            {
+                return null;
+            }
+
+            if (_context.Views.Any(v => v.ArticleId == id && v.UserId == userId))
+            {
+                return article;
+            }
+
+            _context.Add(new View { ArticleId = id, UserId = userId });
+            await _context.SaveChangesAsync();
+
+            return article;
+        }
+
         public Article GetArticleWithCategoryIds(int id)
         {
             return _context.Articles.Include(a => a.ArticleCategories).FirstOrDefault(a => a.Id == id);
@@ -182,18 +201,6 @@ namespace BackendApi.Data.Repositories
 
             _fileManager.DeleteImage(article.Image);
             _context.Remove(article);
-
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<bool> AddView(int articleId, int userId)
-        {
-            if (_context.Views.Any(v => v.ArticleId == articleId && v.UserId == userId))
-            {
-                return true;
-            }
-
-            _context.Add(new View { ArticleId = articleId, UserId = userId });
 
             return await _context.SaveChangesAsync() > 0;
         }

@@ -41,16 +41,19 @@ namespace BackendApi.Controllers
         {
             var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
+            int likesCount;
             try
             {
-                if (await _repository.PutLike(articleId, userId))
-                {
-                    return NoContent();
-                }
+                likesCount = await _repository.PutLike(articleId, userId);
             }
             catch (Exception)
             {
                 return NotFound();
+            }
+
+            if (likesCount != -1)
+            {
+                return Ok(new { Count = likesCount });
             }
 
             return StatusCode(500);
@@ -62,9 +65,19 @@ namespace BackendApi.Controllers
         {
             var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            if (await _repository.CancelLike(articleId, userId))
+            int likesCount;
+            try
             {
-                return NoContent();
+                likesCount = await _repository.CancelLike(articleId, userId);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
+            if (likesCount != -1)
+            {
+                return Ok(new { Count = likesCount });
             }
 
             return StatusCode(500);

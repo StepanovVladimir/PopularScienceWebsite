@@ -24,7 +24,7 @@ namespace BackendApi.Data.Repositories
 
         public List<Comment> GetArticleComments(int articleId)
         {
-            return _context.Comments.Where(c => c.ArticleId == articleId).Include(c => c.User).ToList();
+            return _context.Comments.Where(c => c.ArticleId == articleId).OrderByDescending(c => c.CreatedAt).Include(c => c.User).ToList();
         }
 
         public List<Comment> GetUserComments(int userId)
@@ -37,7 +37,7 @@ namespace BackendApi.Data.Repositories
             return _context.Comments.OrderByDescending(c => c.CreatedAt).Include(c => c.Article).Include(c => c.User).ToList();
         }
 
-        public async Task<Comment> CreateComment(CommentViewModel viewModel, int userId)
+        public async Task<bool> CreateComment(CommentViewModel viewModel, int userId)
         {
             if (!_context.Articles.Any(a => a.Id == viewModel.ArticleId))
             {
@@ -53,16 +53,11 @@ namespace BackendApi.Data.Repositories
             };
 
             _context.Add(comment);
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                comment.User = _context.Users.Find(userId);
-                return comment;
-            }
 
-            return null;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Comment> UpdateComment(int id, CommentViewModel viewModel, int userId)
+        public async Task<bool> UpdateComment(int id, CommentViewModel viewModel, int userId)
         {
             var comment = _context.Comments.Find(id);
 
@@ -79,13 +74,8 @@ namespace BackendApi.Data.Repositories
             comment.Text = viewModel.Text;
 
             _context.Update(comment);
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                comment.User = _context.Users.Find(userId);
-                return comment;
-            }
 
-            return null;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> DeleteComment(int id)

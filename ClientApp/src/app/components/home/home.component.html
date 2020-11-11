@@ -1,5 +1,11 @@
-<mat-card>
-    <a [routerLink]="['/home/favourite']">Понравившиеся статьи</a>
-    <br>
-    <button mat-flat-button color="primary" (click)='logout()'>Выйти</button>
-</mat-card>
+<div class="row">
+    <div class="col-md-8 offset-md-1">
+        <div class="card">
+            <div class="card-header">Моя страница</div>
+            <div class="card-body">
+                <div><a [routerLink]="['/home/favourite']" class="link">Понравившиеся статьи</a></div>
+                <div><a href="javascript:;" class="link" (click)='logout()'>Выйти</a></div>
+            </div>
+        </div>
+    </div>
+</div>

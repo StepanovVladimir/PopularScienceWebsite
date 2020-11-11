@@ -13,8 +13,8 @@ namespace BackendApi.Data.Repositories
         List<Comment> GetArticleComments(int articleId);
         List<Comment> GetUserComments(int userId);
         List<Comment> GetComments();
-        Task<Comment> CreateComment(CommentViewModel viewModel, int userId);
-        Task<Comment> UpdateComment(int id, CommentViewModel viewModel, int userId);
+        Task<bool> CreateComment(CommentViewModel viewModel, int userId);
+        Task<bool> UpdateComment(int id, CommentViewModel viewModel, int userId);
         Task<bool> DeleteComment(int id);
         Task<bool> DeleteComment(int id, int userId);
     }

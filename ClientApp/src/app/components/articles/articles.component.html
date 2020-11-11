@@ -1,8 +1,14 @@
-<mat-card>
-    <div *ngFor="let article of articles" class="article">
-        <p class="article_title_link">{{ article.title }}</p>
-        <img src="{{ article.image }}" alt="{{ article.title }}" class="article_image">
-        <p>{{ article.description }}</p>
-        <p class="date">{{ article.createdAt }}</p>
+<div class="row">
+    <div class="col-lg-9 col-xl-10">
+        <div *ngFor="let article of articles" class="article">
+            <a [routerLink]="['/article/show', article.id]" class="article_title_link">{{ article.title }}</a>
+            <p class="grey">{{ article.createdAt }}</p>
+            <img [src]="article.image" [alt]="article.title" class="article_image">
+            <p>{{ article.description }}</p>
+            <p class="article_bottom grey"><i class="far fa-heart"></i> {{ article.likesCount }}</p>
+            <p class="article_bottom grey"><i class="far fa-comment"></i> {{ article.commentsCount }}</p>
+            <p class="article_bottom grey"><i class="far fa-eye"></i> {{ article.viewsCount }}</p>
+            <div class="clear"></div>
+        </div>
     </div>
-</mat-card>
+</div>

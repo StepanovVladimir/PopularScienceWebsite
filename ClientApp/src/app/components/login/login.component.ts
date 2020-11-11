@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -15,11 +16,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(name: string, password: string) {
-    this.authService.login(name, password)
-      .subscribe(res => {
-
-      }, error => {
+  login(form: NgForm) {
+    this.authService.login(form.value)
+      .subscribe(res => { }, error => {
         alert('Не правильный логин или пароль')
       })
   }

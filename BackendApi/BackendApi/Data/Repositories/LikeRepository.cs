@@ -26,7 +26,7 @@ namespace BackendApi.Data.Repositories
             return _context.Likes.Any(l => l.ArticleId == articleId && l.UserId == userId);
         }
 
-        public async Task<bool> PutLike(int articleId, int userId)
+        public async Task<int> PutLike(int articleId, int userId)
         {
             if (!_context.Articles.Any(a => a.Id == articleId))
             {
@@ -35,26 +35,36 @@ namespace BackendApi.Data.Repositories
 
             if (LikeIsPutted(articleId, userId))
             {
-                return true;
+                return GetLikesCount(articleId);
             }
 
             _context.Add(new Like { ArticleId = articleId, UserId = userId });
 
-            return await _context.SaveChangesAsync() > 0;
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return GetLikesCount(articleId);
+            }
+
+            return -1;
         }
 
-        public async Task<bool> CancelLike(int articleId, int userId)
+        public async Task<int> CancelLike(int articleId, int userId)
         {
             var like = _context.Likes.Find(articleId, userId);
 
             if (like == null)
             {
-                return true;
+                return GetLikesCount(articleId);
             }
 
             _context.Remove(like);
 
-            return await _context.SaveChangesAsync() > 0;
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return GetLikesCount(articleId);
+            }
+
+            return -1;
         }
     }
 }

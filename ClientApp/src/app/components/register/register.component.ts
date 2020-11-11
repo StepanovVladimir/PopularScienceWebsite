@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -15,12 +16,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  register(name: string, password: string, passwordConfirm) {
-    this.authService.register(name, password, passwordConfirm)
-      .subscribe(res => {
-
-      }, error => {
-        alert('Ошибка регистрации')
+  register(form: NgForm) {
+    this.authService.register(form.value)
+      .subscribe(res => { }, error => {
+        alert("Не удалось зарегистрироваться")
       })
   }
 }

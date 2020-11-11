@@ -20,6 +20,8 @@ import { ACCESS_TOKEN_KEY } from './services/auth.service';
 import { FavouriteArticlesComponent } from './components/favourite-articles/favourite-articles.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ArticleComponent } from './components/article/article.component';
+import { FormsModule } from '@angular/forms';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -32,13 +34,15 @@ export function tokenGetter() {
     ArticlesComponent,
     FavouriteArticlesComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ArticleComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
 
     MatCardModule,
     MatInputModule,

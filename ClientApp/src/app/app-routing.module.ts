@@ -6,12 +6,14 @@ import { FavouriteArticlesComponent } from './components/favourite-articles/favo
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ArticleComponent } from './components/article/article.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: '', component: ArticlesComponent },
+  { path: 'article/show/:articleId', component: ArticleComponent },
   { path: 'home/favourite', component: FavouriteArticlesComponent, canActivate: [AuthGuard] }
 ];
 

@@ -21,10 +21,8 @@ export class AuthService {
     private router: Router
   ) { }
 
-  login(name: string, password: string): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}auth/login`, {
-      name, password
-    }).pipe(
+  login(loginData): Observable<Token> {
+    return this.http.post<Token>(`${this.apiUrl}/auth/login`, loginData).pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.accessToken)
         this.router.navigate(['/home'])
@@ -32,10 +30,8 @@ export class AuthService {
     )
   }
 
-  register(name: string, password: string, passwordConfirm: string): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}auth/register`, {
-      name, password, passwordConfirm
-    }).pipe(
+  register(registerData): Observable<Token> {
+    return this.http.post<Token>(`${this.apiUrl}/auth/register`, registerData).pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.accessToken)
         this.router.navigate(['/home'])
@@ -46,6 +42,48 @@ export class AuthService {
   isAuthenticated(): boolean {
     var token = localStorage.getItem(ACCESS_TOKEN_KEY)
     return token && !this.jwtHelper.isTokenExpired(token)
+  }
+
+  getUserId(): number {
+    if (!this.isAuthenticated()) {
+      return 0
+    }
+
+    return Number.parseInt(this.jwtHelper.decodeToken(localStorage.getItem(ACCESS_TOKEN_KEY)).sub)
+  }
+
+  isModerator(): boolean {
+    if (!this.isAuthenticated()) {
+      return false
+    }
+
+    let role = this.jwtHelper.decodeToken(localStorage.getItem(ACCESS_TOKEN_KEY)).role
+    if (!role) {
+      return false
+    }
+
+    if (typeof(role) == "string") {
+      return role == "Moderator"
+    } else {
+      return role.includes("Moderator")
+    }
+  }
+
+  isAdmin(): boolean {
+    if (!this.isAuthenticated()) {
+      return false
+    }
+
+    let role = this.jwtHelper.decodeToken(localStorage.getItem(ACCESS_TOKEN_KEY)).role
+    if (!role) {
+      return false
+    }
+
+    if (typeof(role) == "string") {
+      return role == "Admin"
+    } else {
+      return role.includes("Admin")
+    }
   }
 
   logout(): void {
