@@ -4,15 +4,15 @@
             <form class="card-body" #form="ngForm" autocomplete="off" (submit)="register(form)">
                 <div class="form-group">
                     <label class="control-label">Имя</label>
-                    <input name="name" #name="ngModel" [(ngModel)]="form.value.name" class="form-control showing_validation" required>
+                    <input name="name" #name="ngModel" [(ngModel)]="form.value.name" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Пароль</label>
-                    <input type="password" name="password" #password="ngModel" [(ngModel)]="form.value.password" class="form-control showing_validation" required>
+                    <input type="password" name="password" #password="ngModel" [(ngModel)]="form.value.password" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Подтвердите пароль</label>
-                    <input type="password" name="passwordConfirm" #passwordConfirm="ngModel" [(ngModel)]="form.value.passwordConfirm" class="form-control showing_validation" required>
+                    <input type="password" name="passwordConfirm" #passwordConfirm="ngModel" [(ngModel)]="form.value.passwordConfirm" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Зарегистрироваться</button>
@@ -21,21 +21,3 @@
         </div>
     </div>
 </div>
-
-
-<!--<mat-form-field>
-    <mat-label>Имя</mat-label>
-    <input matInput #name>
-</mat-form-field>
-<br>
-<mat-form-field>
-    <mat-label>Пароль</mat-label>
-    <input type="password" matInput #password> 
-</mat-form-field>
-<br>
-<mat-form-field>
-    <mat-label>Подтвердите пароль</mat-label>
-    <input type="password" matInput #passwordConfirm> 
-</mat-form-field>
-<br>
-<button mat-flat-button color="primary" (click)='register(name.value, password.value, passwordConfirm.value)'>Зарегистрироваться</button>-->

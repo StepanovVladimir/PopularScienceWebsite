@@ -6,11 +6,11 @@ body {
     font-family: "Source Sans Pro";
 }
 
-.showing_validation.ng-touched.ng-invalid {
+.ng-touched.ng-invalid {
     border-color: #dc3545;
 }
 
-.showing_validation.ng-valid {
+.ng-valid {
     border-color: #28a745;
 }
 
@@ -91,8 +91,8 @@ body {
     }
 }
 
-.comment_edit {
-    margin-bottom: 10px;
+.comment {
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 991px) {

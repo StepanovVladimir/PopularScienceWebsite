@@ -17,17 +17,17 @@
         <div class="clear"></div>
         <p *ngIf="!isLoggedIn">Зарегистрируйтесь, чтобы ставить лайки и оставлять комментарии</p>
         <div *ngIf="isLoggedIn">
-            <form #form="ngForm" autocomplete="off" (submit)="createComment(form)">
+            <form [formGroup]="commentForm" (ngSubmit)="createComment()">
                 <div class="form-group">
-                    <label class="control-label">Оставте комментарий</label>
-                    <textarea name="text" #text="ngModel" [(ngModel)]="form.value.text" class="form-control" required></textarea>
+                    <label>Оставте комментарий</label>
+                    <angular-editor id="comment" formControlName="text" [config]="editorConfig"></angular-editor>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Добавить</button>
+                    <button class="btn btn-primary" type="submit" [disabled]="commentForm.invalid">Добавить</button>
                 </div>
             </form>
         </div>
-        <div class="col-md-12" *ngFor="let comment of comments; let i = index">
+        <div class="col-md-12 comment" *ngFor="let comment of comments; let i = index">
             <div *ngIf="!commentsEdits[i]">
                 <span>
                     <b class="font-weight-bold">{{ comment.userName }} </b>
@@ -35,15 +35,15 @@
                     <a href="javascript:;" class="active_icon comment_icon" *ngIf="userId == comment.userId" (click)="showEditComment(i)"><i class="far fa-edit"></i></a>
                     <a href="javascript:;" class="active_icon comment_icon" *ngIf="userId == comment.userId || isModerator" (click)="deleteComment(comment.id)"><i class="far fa-trash-alt"></i></a>
                 </span>
-                <p>{{ comment.text }}</p>
+                <div [innerHTML]="comment.text"></div>
             </div>
-            <div *ngIf="commentsEdits[i]" class="comment_edit">
-                <form #form="ngForm" autocomplete="off" (submit)="updateComment(comment.id, form)">
+            <div *ngIf="commentsEdits[i]">
+                <form [formGroup]="commentsForms[i]" (ngSubmit)="updateComment(comment.id, i)">
                     <div class="form-group">
-                        <textarea name="text" #text="ngModel" [(ngModel)]="commentsEditTexts[i]" class="form-control" required>{{ comment.text }}</textarea>
+                        <angular-editor [id]="'edit_comment_' + comment.id" formControlName="text" [config]="editorConfig"></angular-editor>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary article_bottom" type="submit" [disabled]="form.invalid || comment.text == form.value.text">Редактировать</button>
+                        <button class="btn btn-primary article_bottom" type="submit" [disabled]="commentsForms[i].invalid || comment.text == commentsForms[i].value.text">Редактировать</button>
                         <a href="javascript:;" class="btn btn-primary article_bottom" (click)="closeEditComment(i)">Отмена</a>
                         <div class="clear"></div>
                     </div>

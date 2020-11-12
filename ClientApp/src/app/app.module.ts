@@ -6,11 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http'
 
-import { MatCardModule } from '@angular/material/card'
-import { MatInputModule } from '@angular/material/input'
-import { MatButtonModule } from '@angular/material/button'
-import { MatTableModule } from '@angular/material/table'
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { HomeComponent } from './components/home/home.component';
 import { ArticlesComponent } from './components/articles/articles.component'
 import { API_URL } from './app-injection-tokens';
@@ -21,7 +16,8 @@ import { FavouriteArticlesComponent } from './components/favourite-articles/favo
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ArticleComponent } from './components/article/article.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -43,12 +39,8 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-
-    MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTableModule,
-    MatFormFieldModule,
+    ReactiveFormsModule,
+    AngularEditorModule,
 
     JwtModule.forRoot({
       config: {

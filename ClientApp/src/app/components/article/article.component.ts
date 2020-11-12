@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Article } from 'src/app/models/article';
 import { Comment } from 'src/app/models/comment';
 import { ArticlesService } from 'src/app/services/articles.service';
@@ -15,18 +16,33 @@ import { LikesService } from 'src/app/services/likes.service';
 })
 export class ArticleComponent implements OnInit {
 
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '100',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '0',
+    translate: 'yes',
+    enableToolbar: false,
+    showToolbar: false,
+};
+
   article: Article
   likeIsPutted: boolean
   comments: Comment[]
+  commentForm: FormGroup
   commentsEdits: boolean[]
-  commentsEditTexts: string[]
+  commentsForms: FormGroup[]
 
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
     private articlesService: ArticlesService,
     private likesService: LikesService,
-    private commentsService: CommentsService
+    private commentsService: CommentsService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -42,14 +58,21 @@ export class ArticleComponent implements OnInit {
             })
         }
       })
+    
+    this.commentForm = this.formBuilder.group({
+      text: ['', [Validators.required]]
+    })
   }
 
   refreshComments() {
     this.commentsService.getArticleComments(this.article.id)
       .subscribe(res => {
+        console.log(this.commentsForms)
         this.comments = res
         this.commentsEdits = Array(this.comments.length).fill(false)
-        this.commentsEditTexts = this.comments.map(c => c.text)
+        this.commentsForms = this.comments.map(c => this.formBuilder.group({
+          text: [c.text, [Validators.required]]
+        }))
       })
   }
 
@@ -93,23 +116,23 @@ export class ArticleComponent implements OnInit {
     this.commentsEdits[index] = false
   }
 
-  createComment(form: NgForm) {
-    this.commentsService.createComment(form.value.text, this.article.id)
+  createComment() {
+    console.log(this.commentForm.value.text)
+    this.commentsService.createComment(this.commentForm.value.text, this.article.id)
       .subscribe(res => {
         this.refreshComments()
-        form.resetForm()
+        this.commentForm.reset()
       }, error => {
         alert("Не удалось добавить комментарий")
       })
   }
 
-  updateComment(id: number, form: NgForm) {
-    this.commentsService.updateComment(id, form.value.text)
+  updateComment(id: number, index: number) {
+    this.commentsService.updateComment(id, this.commentsForms[index].value.text)
       .subscribe(res => {
         this.refreshComments()
-        form.resetForm()
       }, error => {
-        alert("Не удалось добавить комментарий")
+        alert("Не удалось изменить комментарий")
       })
   }
 
