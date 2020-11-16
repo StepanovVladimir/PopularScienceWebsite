@@ -184,7 +184,10 @@ namespace BackendApi.Data.Repositories
 
             foreach (int categoryId in viewModel.CategoryIds)
             {
-                _context.Add(new ArticleCategory { ArticleId = article.Id, CategoryId = categoryId });
+                if (!article.ArticleCategories.Any(ac => ac.CategoryId == categoryId))
+                {
+                    _context.Add(new ArticleCategory { ArticleId = article.Id, CategoryId = categoryId });
+                }
             }
 
             return await _context.SaveChangesAsync() > 0;

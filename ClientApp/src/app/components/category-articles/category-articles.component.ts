@@ -1,26 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Article } from 'src/app/models/article';
 import { ArticlesService } from 'src/app/services/articles.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-articles',
-  templateUrl: './articles.component.html',
-  styleUrls: ['./articles.component.scss']
+  selector: 'app-category-articles',
+  templateUrl: './category-articles.component.html',
+  styleUrls: ['./category-articles.component.scss']
 })
-export class ArticlesComponent implements OnInit {
+export class CategoryArticlesComponent implements OnInit {
 
   articles: Article[]
 
   constructor(
+    private route: ActivatedRoute,
     private articlesService: ArticlesService,
     private authService: AuthService
-  ) { }
+  ) {
+    this.route.params.subscribe(params => {
+      this.articlesService.getCategoryArticles(params.id).subscribe(res => {
+        this.articles = res
+      })
+    });
+  }
 
   ngOnInit(): void {
-    this.articlesService.getArticles().subscribe(res => {
+    /*this.articlesService.getCategoryArticles(this.route.snapshot.params.id).subscribe(res => {
       this.articles = res
-    })
+    })*/
   }
 
   get isAdmin(): boolean {

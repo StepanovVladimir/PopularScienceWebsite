@@ -1,12 +1,34 @@
-<div>
-  <div class="topnav">
-    <a [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }">Научно-популяный сайт</a>
-    <a [routerLink]="['/login']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Войти</a>
-    <a [routerLink]="['/register']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Регистрация</a>
-    <a [routerLink]="['/home']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='isLoggedIn'>Моя страница</a>
-  </div>
+<!--<div class="topnav">
+  <a [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }">Научно-популяный сайт</a>
+  <a [routerLink]="['/login']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Войти</a>
+  <a [routerLink]="['/register']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Регистрация</a>
+  <a [routerLink]="['/home']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='isLoggedIn'>Моя страница</a>
+  <a href="javascript:;" *ngIf='isLoggedIn' (click)="logout()">Выйти</a>
+</div>-->
 
-  <div class="container">
-      <router-outlet></router-outlet>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
+  <a class="navbar-brand top_link" [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }">На главную</a>
+  <a class="navbar-brand top_link" [routerLink]="['/login']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Войти</a>
+  <a class="navbar-brand top_link" [routerLink]="['/register']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Регистрация</a>
+  <a class="navbar-brand top_link" [routerLink]="['/home']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='isLoggedIn'>Моя страница</a>
+  <a class="navbar-brand top_link" href="javascript:;" *ngIf='isLoggedIn' (click)="logout()">Выйти</a>
+  <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarCollapse"
+      aria-controls="navbarCollapse"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto sidenav bg-white">
+      <li class="nav-item" *ngFor="let category of categories"><a class="nav-link top_link" [routerLink]="['/articles/category', category.id]" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }">{{ category.name }}</a></li>
+    </ul>
   </div>
+</nav>
+
+<div class="container main_container">
+  <router-outlet></router-outlet>
 </div>

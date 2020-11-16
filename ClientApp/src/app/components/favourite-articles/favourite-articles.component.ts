@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Article } from 'src/app/models/article';
 import { ArticlesService } from 'src/app/services/articles.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-favourite-articles',
@@ -9,11 +10,11 @@ import { ArticlesService } from 'src/app/services/articles.service';
 })
 export class FavouriteArticlesComponent implements OnInit {
 
-  articles: Article[] = []
-  columns = ['id', 'title', 'description', 'image', 'createdAt']
+  articles: Article[]
 
   constructor(
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -21,5 +22,19 @@ export class FavouriteArticlesComponent implements OnInit {
       .subscribe(res => {
         this.articles = res
       })
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.isAdmin()
+  }
+
+  deleteArticle(id: number) {
+    if (confirm("Вы действительно хотите удалить эту статью?")) {
+      this.articlesService.deleteArticle(id).subscribe(res => {
+        this.articles = this.articles.filter(a => a.id != id)
+      }, error => {
+        alert("Не удалось удалить статью")
+      })
+    }
   }
 }

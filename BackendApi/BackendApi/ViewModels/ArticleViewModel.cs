@@ -20,6 +20,6 @@ namespace BackendApi.ViewModels
 
         public IFormFile Image { get; set; }
 
-        public int[] CategoryIds { get; set; }
+        public int[] CategoryIds { get; set; } = new int[] { };
     }
 }

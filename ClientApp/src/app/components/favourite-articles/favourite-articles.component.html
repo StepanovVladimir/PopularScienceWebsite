@@ -4,10 +4,14 @@
             <a [routerLink]="['/article/show', article.id]" class="article_title_link">{{ article.title }}</a>
             <p class="grey">{{ article.createdAt }}</p>
             <img [src]="article.image" [alt]="article.title" class="article_image">
-            <p>{{ article.description }}</p>
-            <p class="article_bottom grey"><i class="far fa-heart"></i> {{ article.likesCount }}</p>
+            <p [innerHTML]="article.description"></p>
+            <p class="article_bottom grey" *ngIf="!article.likeIsPutted"><i class="far fa-heart"></i> {{ article.likesCount }}</p>
+            <p class="article_bottom putted_like" *ngIf="article.likeIsPutted"><i class="fas fa-heart"></i> {{ article.likesCount }}</p>
             <p class="article_bottom grey"><i class="far fa-comment"></i> {{ article.commentsCount }}</p>
             <p class="article_bottom grey"><i class="far fa-eye"></i> {{ article.viewsCount }}</p>
+            <div class="clear"></div>
+            <a [routerLink]="['/article/edit', article.id]" *ngIf="isAdmin" class="btn btn-primary article_bottom">Редактировать</a>
+            <a href="javascript:;" *ngIf="isAdmin" class="btn btn-danger article_bottom" (click)="deleteArticle(article.id)">Удалить</a>
             <div class="clear"></div>
         </div>
     </div>

@@ -8,4 +8,6 @@ export class Article {
     viewsCount: number
     likesCount: number
     commentsCount: number
+    likeIsPutted: boolean
+    categoryIds: number[]
 }

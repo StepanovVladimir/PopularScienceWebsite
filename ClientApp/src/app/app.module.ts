@@ -18,6 +18,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { ArticleComponent } from './components/article/article.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { CreateArticleComponent } from './components/create-article/create-article.component';
+import { EditArticleComponent } from './components/edit-article/edit-article.component';
+import { CategoryArticlesComponent } from './components/category-articles/category-articles.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -31,7 +34,10 @@ export function tokenGetter() {
     FavouriteArticlesComponent,
     LoginComponent,
     RegisterComponent,
-    ArticleComponent
+    ArticleComponent,
+    CreateArticleComponent,
+    EditArticleComponent,
+    CategoryArticlesComponent
   ],
   imports: [
     BrowserModule,

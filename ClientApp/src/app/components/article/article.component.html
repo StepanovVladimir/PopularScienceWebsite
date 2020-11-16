@@ -3,18 +3,21 @@
         <div class="article">
             <h1 class="article_title">{{ article.title }}</h1>
             <p class="grey">{{ article.createdAt }}</p>
-            <p>{{ article.description }}</p>
+            <p [innerHTML]="article.description"></p>
             <img [src]="article.image" [alt]="article.title" class="article_image">
-            <p>{{ article.content }}</p>
+            <p [innerHTML]="article.content"></p>
+            <p class="article_bottom grey" *ngIf="!isLoggedIn"><i class="far fa-heart"></i> {{ article.likesCount }}</p>
+            <h5 class="article_bottom" *ngIf="isLoggedIn">
+                <a href="javascript:;" class="active_icon" *ngIf="!article.likeIsPutted" (click)="putLike()"><i class="far fa-heart"></i> {{ article.likesCount }}</a>
+                <a href="javascript:;" class="putted_like" *ngIf="article.likeIsPutted" (click)="cancelLike()"><i class="fas fa-heart"></i> {{ article.likesCount }}</a>
+            </h5>
+            <p class="article_bottom grey"><i class="far fa-comment"></i> {{ article.commentsCount }}</p>
+            <p class="article_bottom grey"><i class="far fa-eye"></i> {{ article.viewsCount }}</p>
+            <div class="clear"></div>
+            <a [routerLink]="['/article/edit', article.id]" *ngIf="isAdmin" class="btn btn-primary article_bottom">Редактировать</a>
+            <a href="javascript:;" *ngIf="isAdmin" class="btn btn-danger article_bottom" (click)="deleteArticle()">Удалить</a>
+            <div class="clear"></div>
         </div>
-        <p class="article_bottom grey" *ngIf="!isLoggedIn"><i class="far fa-heart"></i> {{ article.likesCount }}</p>
-        <h5 class="article_bottom" *ngIf="isLoggedIn">
-            <a href="javascript:;" class="active_icon" *ngIf="!likeIsPutted" (click)="putLike()"><i class="far fa-heart"></i> {{ article.likesCount }}</a>
-            <a href="javascript:;" class="putted_like" *ngIf="likeIsPutted" (click)="cancelLike()"><i class="fas fa-heart"></i> {{ article.likesCount }}</a>
-        </h5>
-        <p class="article_bottom grey"><i class="far fa-comment"></i> {{ article.commentsCount }}</p>
-        <p class="article_bottom grey"><i class="far fa-eye"></i> {{ article.viewsCount }}</p>
-        <div class="clear"></div>
         <p *ngIf="!isLoggedIn">Зарегистрируйтесь, чтобы ставить лайки и оставлять комментарии</p>
         <div *ngIf="isLoggedIn">
             <form [formGroup]="commentForm" (ngSubmit)="createComment()">

@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
     
   }
 
-  logout() {
-    this.authService.logout()
+  get isAdmin(): boolean {
+    return this.authService.isAdmin()
   }
 }

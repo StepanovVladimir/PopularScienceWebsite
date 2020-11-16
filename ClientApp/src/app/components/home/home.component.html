@@ -4,7 +4,7 @@
             <div class="card-header">Моя страница</div>
             <div class="card-body">
                 <div><a [routerLink]="['/home/favourite']" class="link">Понравившиеся статьи</a></div>
-                <div><a href="javascript:;" class="link" (click)='logout()'>Выйти</a></div>
+                <div *ngIf="isAdmin"><a [routerLink]="['/article/create']" class="link">Создать статью</a></div>
             </div>
         </div>
     </div>
