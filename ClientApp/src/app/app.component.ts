@@ -10,7 +10,7 @@ import { CategoriesService } from './services/categories.service';
 })
 export class AppComponent {
   
-  categories: Category[]
+  public categories: Category[]
 
   constructor(
     private authService: AuthService,
@@ -18,6 +18,10 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
+    this.refreshCategories()
+  }
+
+  public refreshCategories() {
     this.categoriesService.getCategories().subscribe(res => {
       this.categories = res
     })

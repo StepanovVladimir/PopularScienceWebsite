@@ -22,7 +22,15 @@ export class CommentsService {
   }
 
   getArticleComments(articleId: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`${this.baseApiUrl}/article/${articleId}/`)
+    return this.http.get<Comment[]>(`${this.baseApiUrl}/article/${articleId}`)
+  }
+
+  getUserComments(): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.baseApiUrl}/user`)
+  }
+
+  getComments(): Observable<Comment[]> {
+    return this.http.get<Comment[]>(this.baseApiUrl)
   }
 
   createComment(text: string, articleId: number): Observable<any> {

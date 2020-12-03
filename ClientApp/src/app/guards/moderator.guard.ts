@@ -5,15 +5,15 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
-
+export class ModeratorGuard implements CanActivate {
+  
   constructor(
     private authService: AuthService,
     private router: Router
   ) { }
 
   canActivate(): boolean {
-    if (!this.authService.isAdmin()) {
+    if (!this.authService.isModerator()) {
       this.router.navigate([''])
     }
 

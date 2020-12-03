@@ -91,6 +91,18 @@ body {
     margin-bottom: 20px;
 }
 
+.comment_article_title
+{
+    font-size: 1.35rem;
+    color: rgb(80,106,133);
+    transition: all 0.2s ease;
+
+    &:hover {
+        color: rgb(0,188,156);
+        text-decoration: none;
+    }
+}
+
 @media screen and (max-width: 991px) {
     .article_title {
         font-size: 1.5rem;

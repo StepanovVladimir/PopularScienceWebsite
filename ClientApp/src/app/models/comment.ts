@@ -1,7 +1,7 @@
 export class Comment {
     id: number
     text: string
-    aricleId: number
+    articleId: number
     userId: number
     createdAt: string
     articleTitle: string

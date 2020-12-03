@@ -71,6 +71,21 @@ export class ArticlesService {
     }))
   }
 
+  getSeenArticles(): Observable<Article[]> {
+    return this.http.get<Article[]>(`${this.baseApiUrl}/seen`).pipe(tap(articles => {
+      articles.forEach(a => {
+        this.viewsService.getViewsCount(a.id).subscribe(res => a.viewsCount = res.count)
+        this.likesService.getLikesCount(a.id).subscribe(res => a.likesCount = res.count)
+        this.commentsService.getCommentsCount(a.id).subscribe(res => a.commentsCount = res.count)
+        if (this.authService.isAuthenticated()) {
+          this.likesService.likeIsPutted(a.id).subscribe(res => a.likeIsPutted = res.putted)
+        } else {
+          a.likeIsPutted = false
+        }
+      })
+    }))
+  }
+
   getArticle(id: number): Observable<Article> {
     return this.http.get<Article>(`${this.baseApiUrl}/${id}`).pipe(tap(a => {
       this.viewsService.getViewsCount(a.id).subscribe(res => a.viewsCount = res.count)

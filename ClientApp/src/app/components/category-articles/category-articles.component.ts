@@ -26,9 +26,6 @@ export class CategoryArticlesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*this.articlesService.getCategoryArticles(this.route.snapshot.params.id).subscribe(res => {
-      this.articles = res
-    })*/
   }
 
   get isAdmin(): boolean {

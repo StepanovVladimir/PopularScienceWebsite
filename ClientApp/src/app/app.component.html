@@ -1,11 +1,3 @@
-<!--<div class="topnav">
-  <a [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }">Научно-популяный сайт</a>
-  <a [routerLink]="['/login']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Войти</a>
-  <a [routerLink]="['/register']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Регистрация</a>
-  <a [routerLink]="['/home']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='isLoggedIn'>Моя страница</a>
-  <a href="javascript:;" *ngIf='isLoggedIn' (click)="logout()">Выйти</a>
-</div>-->
-
 <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
   <a class="navbar-brand top_link" [routerLink]="['']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }">На главную</a>
   <a class="navbar-brand top_link" [routerLink]="['/login']" routerLinkActive='active' [routerLinkActiveOptions]="{ exact: true }" *ngIf='!isLoggedIn'>Войти</a>

@@ -26,6 +26,19 @@ namespace BackendApi.Controllers
             return Ok(_repository.GetCategories());
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Show(int id)
+        {
+            var category = _repository.GetCategory(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(category);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CategoryViewModel request)

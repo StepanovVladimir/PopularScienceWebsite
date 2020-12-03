@@ -21,6 +21,11 @@ namespace BackendApi.Data.Repositories
             return _context.Categories.OrderBy(c => c.Name).ToList();
         }
 
+        public Category GetCategory(int id)
+        {
+            return _context.Categories.Find(id);
+        }
+
         public async Task<bool> CreateCategory(CategoryViewModel viewModel)
         {
             var category = new Category { Name = viewModel.Name };

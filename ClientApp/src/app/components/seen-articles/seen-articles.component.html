@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-9 col-xl-10">
-        <h1 *ngIf="articles.length == 0">У вас нет понравившихся статей</h1>
+        <h1 *ngIf="articles.length == 0">Вы не смотрели ни одну статью</h1>
         <div *ngFor="let article of articles" class="article">
             <a [routerLink]="['/article/show', article.id]" class="article_title_link">{{ article.title }}</a>
             <p class="grey">{{ article.createdAt }}</p>

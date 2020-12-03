@@ -4,11 +4,11 @@ import { ArticlesService } from 'src/app/services/articles.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-favourite-articles',
-  templateUrl: './favourite-articles.component.html',
-  styleUrls: ['./favourite-articles.component.scss']
+  selector: 'app-seen-articles',
+  templateUrl: './seen-articles.component.html',
+  styleUrls: ['./seen-articles.component.scss']
 })
-export class FavouriteArticlesComponent implements OnInit {
+export class SeenArticlesComponent implements OnInit {
 
   articles: Article[]
 
@@ -18,7 +18,7 @@ export class FavouriteArticlesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.articlesService.getFavouriteArticles().subscribe(res =>
+    this.articlesService.getSeenArticles().subscribe(res =>
       this.articles = res
     )
   }

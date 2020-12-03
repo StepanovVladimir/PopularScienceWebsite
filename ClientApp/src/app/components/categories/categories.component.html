@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-lg-9 col-xl-10">
+        <table class="table table-bordered">
+            <tr *ngFor="let category of categories">
+                <td>{{ category.name }}</td>
+                <td>
+                    <a [routerLink]="['/category/edit', category.id]" class="btn btn-primary">Редактировать</a>
+                </td>
+                <td>
+                    <a href="javascript:;" class="btn btn-danger delete" (click)="deleteCategory(category.id)">Удалить</a>
+                </td>
+            </tr>
+        </table>
+        <a [routerLink]="['/category/create']" class="btn btn-primary">Создать категорию</a>
+    </div>
+</div>

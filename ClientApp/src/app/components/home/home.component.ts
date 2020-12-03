@@ -16,6 +16,10 @@ export class HomeComponent implements OnInit {
     
   }
 
+  get isModerator(): boolean {
+    return this.authService.isModerator()
+  }
+
   get isAdmin(): boolean {
     return this.authService.isAdmin()
   }

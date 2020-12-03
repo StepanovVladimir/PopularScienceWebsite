@@ -21,6 +21,13 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { CreateArticleComponent } from './components/create-article/create-article.component';
 import { EditArticleComponent } from './components/edit-article/edit-article.component';
 import { CategoryArticlesComponent } from './components/category-articles/category-articles.component';
+import { UserCommentsComponent } from './components/user-comments/user-comments.component';
+import { CreateCategoryComponent } from './components/create-category/create-category.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { EditCategoryComponent } from './components/edit-category/edit-category.component';
+import { SeenArticlesComponent } from './components/seen-articles/seen-articles.component';
+import { CommentsComponent } from './components/comments/comments.component';
+import { UsersComponent } from './components/users/users.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -37,7 +44,14 @@ export function tokenGetter() {
     ArticleComponent,
     CreateArticleComponent,
     EditArticleComponent,
-    CategoryArticlesComponent
+    CategoryArticlesComponent,
+    UserCommentsComponent,
+    CreateCategoryComponent,
+    CategoriesComponent,
+    EditCategoryComponent,
+    SeenArticlesComponent,
+    CommentsComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
