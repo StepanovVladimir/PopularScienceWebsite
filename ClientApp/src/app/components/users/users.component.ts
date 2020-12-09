@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/models/user';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-users',
@@ -7,9 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
 
-  constructor() { }
+  users: User[]
+
+  constructor(
+    private usersService: UsersService
+  ) { }
 
   ngOnInit(): void {
+    this.usersService.getUsers().subscribe(res => {
+      this.users = res
+    })
   }
 
+  giveRights(id: number) {
+    this.usersService.giveRights(id).subscribe(res => {
+      this.users.find(u => u.id == id).isModerator = true
+    })
+  }
+
+  depriveRights(id: number) {
+    this.usersService.depriveRights(id).subscribe(res => {
+      this.users.find(u => u.id == id).isModerator = false
+    })
+  }
 }

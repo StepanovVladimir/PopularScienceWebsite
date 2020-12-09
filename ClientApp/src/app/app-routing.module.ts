@@ -18,6 +18,8 @@ import { EditCategoryComponent } from './components/edit-category/edit-category.
 import { SeenArticlesComponent } from './components/seen-articles/seen-articles.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { ModeratorGuard } from './guards/moderator.guard';
+import { UsersComponent } from './components/users/users.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -26,6 +28,7 @@ const routes: Routes = [
   { path: '', component: ArticlesComponent },
   { path: 'article/show/:id', component: ArticleComponent },
   { path: 'articles/category/:id', component: CategoryArticlesComponent },
+  { path: 'home/password/change', component: ChangePasswordComponent, canActivate: [AuthGuard] },
   { path: 'home/seen', component: SeenArticlesComponent, canActivate: [AuthGuard] },
   { path: 'home/favourite', component: FavouriteArticlesComponent, canActivate: [AuthGuard] },
   { path: 'home/comments', component: UserCommentsComponent, canActivate: [AuthGuard] },
@@ -35,6 +38,7 @@ const routes: Routes = [
   { path: 'categories', component: CategoriesComponent, canActivate: [AdminGuard] },
   { path: 'category/create', component: CreateCategoryComponent, canActivate: [AdminGuard] },
   { path: 'category/edit/:id', component: EditCategoryComponent, canActivate: [AdminGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [AdminGuard] }
 ];
 
 @NgModule({

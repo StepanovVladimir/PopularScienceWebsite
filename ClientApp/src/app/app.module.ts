@@ -28,6 +28,7 @@ import { EditCategoryComponent } from './components/edit-category/edit-category.
 import { SeenArticlesComponent } from './components/seen-articles/seen-articles.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { UsersComponent } from './components/users/users.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -51,7 +52,8 @@ export function tokenGetter() {
     EditCategoryComponent,
     SeenArticlesComponent,
     CommentsComponent,
-    UsersComponent
+    UsersComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ namespace BackendApi.Data.Repositories
         List<User> GetUsers();
         User GetUser(LoginViewModel viewModel);
         Task<User> RegisterUser(RegisterViewModel viewModel);
+        Task<bool> ChangePassword(int id, ChangePasswordViewModel viewModel);
         Task<bool> GiveRights(int id);
         Task<bool> DepriveRights(int id);
     }

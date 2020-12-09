@@ -21,8 +21,10 @@ export class AuthService {
     private router: Router
   ) { }
 
+  private baseApiUrl = `${this.apiUrl}/auth`
+
   login(loginData): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}/auth/login`, loginData).pipe(
+    return this.http.post<Token>(`${this.baseApiUrl}/login`, loginData).pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.accessToken)
         this.router.navigate(['/home'])
@@ -31,9 +33,17 @@ export class AuthService {
   }
 
   register(registerData): Observable<Token> {
-    return this.http.post<Token>(`${this.apiUrl}/auth/register`, registerData).pipe(
+    return this.http.post<Token>(`${this.baseApiUrl}/register`, registerData).pipe(
       tap(token => {
         localStorage.setItem(ACCESS_TOKEN_KEY, token.accessToken)
+        this.router.navigate(['/home'])
+      })
+    )
+  }
+
+  changePassword(changePasswordData): Observable<any> {
+    return this.http.put(`${this.baseApiUrl}/password/change`, changePasswordData).pipe(
+      tap(res => {
         this.router.navigate(['/home'])
       })
     )

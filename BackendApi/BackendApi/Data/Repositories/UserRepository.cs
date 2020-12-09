@@ -59,6 +59,21 @@ namespace BackendApi.Data.Repositories
             return null;
         }
 
+        public async Task<bool> ChangePassword(int id, ChangePasswordViewModel viewModel)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, viewModel.OldPassword);
+            if (verificationResult == PasswordVerificationResult.Success)
+            {
+                user.PasswordHash = _passwordHasher.HashPassword(user, viewModel.NewPassword);
+                _context.Update(user);
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+
+            throw new Exception();
+        }
+
         public async Task<bool> GiveRights(int id)
         {
             var user = _context.Users.Include(u => u.UserRoles).FirstOrDefault(u => u.Id == id);

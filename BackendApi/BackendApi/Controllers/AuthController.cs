@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BackendApi.Auth;
 using BackendApi.Data;
 using BackendApi.Data.Repositories;
 using BackendApi.Models;
 using BackendApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +58,27 @@ namespace BackendApi.Controllers
             }
 
             return Unauthorized();
+        }
+
+        [Route("password/change")]
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel request)
+        {
+            var userId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            try
+            {
+                if (await _repository.ChangePassword(userId, request))
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            return StatusCode(500);
         }
     }
 }

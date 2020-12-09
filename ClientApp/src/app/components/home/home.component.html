@@ -3,12 +3,14 @@
         <div class="card">
             <div class="card-header">Моя страница</div>
             <div class="card-body">
+                <div><a [routerLink]="['/home/password/change']" class="link">Сменить пароль</a></div>
                 <div><a [routerLink]="['/home/seen']" class="link">Мои просмотры</a></div>
                 <div><a [routerLink]="['/home/favourite']" class="link">Понравившиеся статьи</a></div>
                 <div><a [routerLink]="['/home/comments']" class="link">Мои комментарии</a></div>
                 <div *ngIf="isModerator"><a [routerLink]="['/comments']" class="link">Все комментарии</a></div>
                 <div *ngIf="isAdmin"><a [routerLink]="['/article/create']" class="link">Создать статью</a></div>
                 <div *ngIf="isAdmin"><a [routerLink]="['/categories']" class="link">Категории</a></div>
+                <div *ngIf="isAdmin"><a [routerLink]="['/users']" class="link">Пользователи</a></div>
             </div>
         </div>
     </div>

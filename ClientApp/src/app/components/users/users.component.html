@@ -1,1 +1,17 @@
-<p>users works!</p>
+<div class="row">
+    <div class="col-lg-9 col-xl-10">
+        <table class="table table-bordered">
+            <tr *ngFor="let user of users">
+                <td>{{ user.name }}</td>
+                <td *ngIf="!user.isModerator">Пользователь</td>
+                <td *ngIf="user.isModerator">Модератор</td>
+                <td *ngIf="!user.isModerator">
+                    <a href="javascript:;" class="btn btn-primary" (click)="giveRights(user.id)">Дать права модератора</a>
+                </td>
+                <td *ngIf="user.isModerator">
+                    <a href="javascript:;" class="btn btn-primary" (click)="depriveRights(user.id)">Лишить прав модератора</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
