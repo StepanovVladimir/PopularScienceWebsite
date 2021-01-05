@@ -17,9 +17,16 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   register(form: NgForm) {
+    if (form.value.newPassword != form.value.newPasswordConfirm) {
+      alert("Пароли не совпадают")
+      return
+    }
+
     this.authService.changePassword(form.value)
-      .subscribe(res => { }, error => {
-        alert("Не удалось сменить пароль")
+      .subscribe(res => {
+        alert("Пароль успешно изменён")
+      }, error => {
+        alert("Старый пароль не верен")
       })
   }
 }

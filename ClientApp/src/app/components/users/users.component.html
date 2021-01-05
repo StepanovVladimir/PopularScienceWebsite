@@ -3,13 +3,12 @@
         <table class="table table-bordered">
             <tr *ngFor="let user of users">
                 <td>{{ user.name }}</td>
-                <td *ngIf="!user.isModerator">Пользователь</td>
-                <td *ngIf="user.isModerator">Модератор</td>
-                <td *ngIf="!user.isModerator">
-                    <a href="javascript:;" class="btn btn-primary" (click)="giveRights(user.id)">Дать права модератора</a>
-                </td>
-                <td *ngIf="user.isModerator">
-                    <a href="javascript:;" class="btn btn-primary" (click)="depriveRights(user.id)">Лишить прав модератора</a>
+                <td *ngIf="user.name == 'admin'">Админ</td>
+                <td *ngIf="user.name != 'admin' && !user.isModerator">Пользователь</td>
+                <td *ngIf="user.name != 'admin' && user.isModerator">Модератор</td>
+                <td>
+                    <a *ngIf="user.name != 'admin' && !user.isModerator" href="javascript:;" class="btn btn-primary" (click)="giveRights(user.id)">Дать права модератора</a>
+                    <a *ngIf="user.name != 'admin' && user.isModerator" href="javascript:;" class="btn btn-primary" (click)="depriveRights(user.id)">Лишить прав модератора</a>
                 </td>
             </tr>
         </table>
